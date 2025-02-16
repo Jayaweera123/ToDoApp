@@ -5,23 +5,31 @@ import com.assignment.todo.service.TaskService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/tasks")
+@RequestMapping("/api/tasks")
 public class TaskController {
-    private TaskService taskService;
 
-    //build Add Task REST API
+    private final TaskService taskService;
+
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
         TaskDto savedTask = taskService.createTask(taskDto);
         return new ResponseEntity<>(savedTask, HttpStatus.CREATED);
-
     }
 
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<TaskDto> completeTask(@PathVariable long id) {
+        TaskDto updatedTask = taskService.markTaskAsCompleted(id);
+        return ResponseEntity.ok(updatedTask);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TaskDto>> getAllTasks() {
+        return ResponseEntity.ok(taskService.getAllTasks());
+    }
 }

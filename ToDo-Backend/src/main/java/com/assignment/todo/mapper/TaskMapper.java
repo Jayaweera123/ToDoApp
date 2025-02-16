@@ -5,34 +5,21 @@ import com.assignment.todo.entity.Task;
 
 public class TaskMapper {
 
-    // Converts a Task entity to a TaskDto
-    public static TaskDto mapToTaskDto(Task task) {
-        if (task == null) {
-            return null;  // Handle null task: return null DTO if the task is null
-        }
+    public static TaskDto toDto(Task task) {
         return new TaskDto(
                 task.getId(),
-                task.getTittle(),
+                task.getTitle(),
                 task.getDescription(),
-                task.getCreated(),
-                task.getUpdated(),
+                task.getCreatedAt(),
+                task.getCompletedAt(),
                 task.isCompleted()
         );
     }
 
-    public static Task mapToTask(TaskDto taskDto) {
-        if (taskDto == null) {
-            return null;  // Handle null taskDto
-        }
-        return new Task(
-                taskDto.getId(),
-                taskDto.getTitle(),
-                taskDto.getDescription(),
-                taskDto.getCreatedAt(),
-                taskDto.getUpdatedAt(),
-                taskDto.isCompleted()
-
-
-        );
+    public static Task toEntity(TaskDto taskDto) {
+        Task task = new Task();
+        task.setTitle(taskDto.getTitle());
+        task.setDescription(taskDto.getDescription());
+        return task;
     }
 }

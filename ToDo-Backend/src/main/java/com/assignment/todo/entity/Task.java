@@ -5,34 +5,37 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;  // For LocalDateTime
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "task")
-
+@Table(name = "task") // Name of database table
+@EntityListeners(AuditingEntityListener.class) // Enables auditing for auto timestamps
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // Auto-increment ID
     private long id;
 
-    @Column(name = "tittle")
-    private String tittle;// Tittle of the task
+    @Column(name = "title", nullable = false)
+    private String title; // Title of the task
 
-    @Column(name = "description")
-    private String description;// Description about the task
+    @Column(name = "description", nullable = false)
+    private String description; // Description about the task
 
-    @Column(name = "created")
-    private LocalDateTime created=LocalDateTime.now(); // Timestamp when the task is created
+    @CreatedDate // Automatically set when the entity is created
+    @Column(name = "createdAt", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    @Column(name = "updated")
-    private LocalDateTime updated=LocalDateTime.now();// Timestamp when the task is created
+    @Column(name = "completedAt")
+    private LocalDateTime completedAt;
 
-    @Column(name ="completed")
+    @Column(name = "completed", nullable = false)
     private boolean completed = false;
 }

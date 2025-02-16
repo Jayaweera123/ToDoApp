@@ -11,7 +11,7 @@ public class TaskMapper {
             return null;  // Handle null task: return null DTO if the task is null
         }
         return new TaskDto(
-                task.getId(), 
+                task.getId(),
                 task.getTittle(),
                 task.getDescription(),
                 task.getCreated(),

@@ -5,7 +5,7 @@ import com.assignment.todo.entity.Task;
 
 public class TaskMapper {
 
-    public static TaskDto toDto(Task task) {
+    public static TaskDto mapToTaskDto(Task task) {
         return new TaskDto(
                 task.getId(),
                 task.getTitle(),
@@ -16,10 +16,14 @@ public class TaskMapper {
         );
     }
 
-    public static Task toEntity(TaskDto taskDto) {
-        Task task = new Task();
-        task.setTitle(taskDto.getTitle());
-        task.setDescription(taskDto.getDescription());
-        return task;
+    public static Task mapToTask(TaskDto taskDto) {
+        return new Task(
+                taskDto.getId(),
+                taskDto.getTitle(),
+                taskDto.getDescription(),
+                taskDto.getCreatedAt(),
+                taskDto.getCompletedAt(),
+                taskDto.isCompleted()
+        );
     }
 }

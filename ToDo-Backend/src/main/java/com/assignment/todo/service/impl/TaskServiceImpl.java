@@ -20,31 +20,47 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskDto createTask(TaskDto taskDto) {
-        Task task = TaskMapper.toEntity(taskDto);
-        task.setCreatedAt(LocalDateTime.now()); // Auto-set createdAt
+        Task task = TaskMapper.mapToTask(taskDto);
+        task.setCreatedAt(LocalDateTime.now()); // Auto-set creation date
         Task savedTask = taskRepository.save(task);
-        return TaskMapper.toDto(savedTask);
-    }
-
-    @Override
-    public TaskDto markTaskAsCompleted(long id) {
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
-
-        if (!task.isCompleted()) {
-            task.setCompleted(true);
-            task.setCompletedAt(LocalDateTime.now());
-            taskRepository.save(task);
-        }
-
-        return TaskMapper.toDto(task);
+        return TaskMapper.mapToTaskDto(savedTask);
     }
 
     @Override
     public List<TaskDto> getAllTasks() {
-        return taskRepository.findAll()
-                .stream()
-                .map(TaskMapper::toDto)
+        return taskRepository.findAll().stream()
+                .map(TaskMapper::mapToTaskDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public TaskDto getTaskById(Long id) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+        return TaskMapper.mapToTaskDto(task);
+    }
+
+    @Override
+    public TaskDto updateTask(Long id, TaskDto taskDto) {
+        // Fetch existing task or throw an exception if not found
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found"));
+
+        // Only update completedAt and completed status
+        if (taskDto.isCompleted() && !task.isCompleted()) {
+            task.setCompletedAt(LocalDateTime.now()); // Set completed time only when task is marked completed
+        }
+        task.setCompleted(taskDto.isCompleted()); // Update completed status
+
+        // Save the updated task
+        Task updatedTask = taskRepository.save(task);
+
+        // Convert entity to DTO and return
+        return TaskMapper.mapToTaskDto(updatedTask);
+    }
+
+
+    @Override
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
     }
 }

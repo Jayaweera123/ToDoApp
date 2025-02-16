@@ -1,10 +1,7 @@
 package com.assignment.todo.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "task") // Name of database table
-@EntityListeners(AuditingEntityListener.class) // Enables auditing for auto timestamps
+@Table(name = "task")
+@EntityListeners(AuditingEntityListener.class) // Enables auto-auditing for @CreatedDate
 public class Task {
 
     @Id
@@ -24,10 +21,10 @@ public class Task {
     private long id;
 
     @Column(name = "title", nullable = false)
-    private String title; // Title of the task
+    private String title;
 
     @Column(name = "description", nullable = false)
-    private String description; // Description about the task
+    private String description;
 
     @CreatedDate // Automatically set when the entity is created
     @Column(name = "createdAt", nullable = false, updatable = false)
@@ -36,6 +33,7 @@ public class Task {
     @Column(name = "completedAt")
     private LocalDateTime completedAt;
 
-    @Column(name = "completed", nullable = false)
+    @Column(name = "completed")
     private boolean completed = false;
+
 }

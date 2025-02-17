@@ -13,7 +13,7 @@ const ToDoForm = ({ addTask }) => {
   };
 
   return (
-    <div className="bg-white p-6 shadow-lg rounded-lg w-full">
+    <div className="bg-white p-6 shadow-lg rounded-lg w-3/">
       <h2 className="text-xl font-bold mb-4 text-black">Add a Task</h2>
       <form onSubmit={handleSubmit}>
         <label className="block text-black font-semibold mb-1">Task</label>

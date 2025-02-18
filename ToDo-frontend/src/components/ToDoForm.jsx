@@ -1,37 +1,51 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { addTask } from "../services/api";
+import Swal from 'sweetalert2'
 
-const ToDoForm = ({ addTask, showSuccessMessage }) => {
+const ToDoForm = ({ onTaskAdded }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const descriptionRef = useRef(null); // Reference for the description field
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (title.trim() === "" || description.trim() === "") return;
 
-    addTask({ title, description });
-    setTitle("");
-    setDescription("");
+    if (!title.trim() || !description.trim()) {
+      Swal.fire({
+        title: "Error!",
+        text: "Both title and description are required.",
+        icon: "error",
+        confirmButtonColor: "#001b5e",
+        iconColor: "#000000"
+      });
+      return;
+    }
 
-    // Show success popup
-    showSuccessMessage();
-  };
+    try {
+      await addTask({ title, description });
+      setTitle("");
+      setDescription("");
 
-  // Move focus to the description field on Enter key in title input
-  const handleKeyDownTitle = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      descriptionRef.current.focus();
+      // Show success alert
+      Swal.fire({
+        title: "Task Added!",
+        text: "Your task has been successfully added.",
+        icon: "success",
+        confirmButtonColor: "#001b5e",
+        iconColor: "#000000"
+      });
+
+      onTaskAdded(); // Refresh task list
+    } catch (error) {
+      Swal.fire({
+        title: "Oops!",
+        text: "Something went wrong while adding the task.",
+        icon: "error",
+        confirmButtonColor: "#001b5e",
+        iconColor: "#000000"
+      });
     }
   };
 
-  // Submit form when Enter is pressed in description field
-  const handleKeyDownDescription = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
 
   return (
     <div className="bg-white p-6 shadow-lg rounded-lg w-full">
@@ -44,16 +58,13 @@ const ToDoForm = ({ addTask, showSuccessMessage }) => {
           className="w-full p-2 border rounded-md mb-4 text-black"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          onKeyDown={handleKeyDownTitle} // Listen for Enter key
         />
         <label className="block text-black font-semibold mb-1">Description</label>
-        <textarea
-          ref={descriptionRef}
+        <textarea      
           placeholder="Description"
           className="w-full p-2 border rounded-md mb-4 h-24 text-black"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          onKeyDown={handleKeyDownDescription} // Listen for Enter key
+          onChange={(e) => setDescription(e.target.value)}         
         ></textarea>
         <button
           type="submit"

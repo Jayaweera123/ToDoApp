@@ -2,32 +2,54 @@ import { useState, useEffect } from "react";
 import ToDoForm from "../components/ToDoForm";
 import ToDoCard from "../components/ToDoCard";
 import backgroundImage from "../assets/background.jpg";
+import { getTasks, completeTask } from "../services/api";
+import Swal from 'sweetalert2'
 
 const ToDoPage = () => {
   const [tasks, setTasks] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const addTask = (task) => {
-    setTasks([...tasks, task]);
-    setShowSuccess(true); // Show popup
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
-    // Hide popup after 2 seconds
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 2000);
+  const fetchTasks = async () => {
+    try {
+      const data = await getTasks();
+      setTasks(data); // Ensure we always get the latest tasks
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
   };
 
-  // Hide popup on Enter key press
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Enter") {
-        setShowSuccess(false);
+  const handleCompleteTask = async (taskId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This task will be marked as completed!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#001b5e",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, delete it!",
+      iconColor: "#000000"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await completeTask(taskId);
+          fetchTasks();
+          Swal.fire({
+            title: "Deleted!",
+            text: "The task has been marked as completed.",
+            icon: "success",
+            confirmButtonColor: "#001b5e",
+            iconColor: "#000000"
+          });
+        } catch (error) {
+          console.error("Error completing task:", error);
+        }
       }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
+    });
+  };
 
   return (
     <div
@@ -50,7 +72,7 @@ const ToDoPage = () => {
       <div className="flex w-full max-w-6xl relative z-10 p-5 bg-white/20 backdrop-blur-lg shadow-lg rounded-lg">
         {/* Left Side - Form */}
         <div className="w-[40%] p-5">
-          <ToDoForm addTask={addTask} />
+          <ToDoForm onTaskAdded={fetchTasks} />
         </div>
 
         {/* Vertical Divider */}
@@ -58,8 +80,12 @@ const ToDoPage = () => {
 
         {/* Right Side - Task Cards */}
         <div className="w-[60%] space-y-6 overflow-y-auto max-h-[500px] p-5">
-          {tasks.map((task, index) => (
-            <ToDoCard key={index} task={task} onDelete={() => removeTask(index)} />
+        {tasks.map((task) => (
+            <ToDoCard 
+              key={task.id} 
+              task={task} 
+              onComplete={() => handleCompleteTask(task.id)} 
+            />
           ))}
         </div>
       </div>

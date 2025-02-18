@@ -58,9 +58,19 @@ public class TaskServiceImpl implements TaskService {
         return TaskMapper.mapToTaskDto(updatedTask);
     }
 
+    @Override
+    public List<TaskDto> getRecentTasks() {
+        return taskRepository.findTop5ByCompletedFalseOrderByCreatedAtDesc()
+                .stream()
+                .map(TaskMapper::mapToTaskDto)
+                .collect(Collectors.toList());
+    }
+
+
 
     @Override
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
+
 }

@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("api/tasks")
+@CrossOrigin("*")
 public class TaskController {
 
     private final TaskService taskService;
@@ -23,8 +24,8 @@ public class TaskController {
 
     // READ All Tasks
     @GetMapping
-    public ResponseEntity<List<TaskDto>> getAllTasks() {
-        return ResponseEntity.ok(taskService.getAllTasks());
+    public ResponseEntity<List<TaskDto>> getRecentTasks() {
+        return ResponseEntity.ok(taskService.getRecentTasks());
     }
 
     // READ Task by ID

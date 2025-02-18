@@ -1,22 +1,27 @@
 import { useState } from "react";
 import { addTask } from "../services/api";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
-const ToDoForm = ({ onTaskAdded }) => {
+// Custom hook for form logic
+const useTaskForm = (onTaskAdded) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonColor: "#001b5e",
+      iconColor: "#000000",
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!title.trim() || !description.trim()) {
-      Swal.fire({
-        title: "Error!",
-        text: "Both title and description are required.",
-        icon: "error",
-        confirmButtonColor: "#001b5e",
-        iconColor: "#000000"
-      });
+      showAlert("Error!", "Both title and description are required.", "error");
       return;
     }
 
@@ -24,48 +29,43 @@ const ToDoForm = ({ onTaskAdded }) => {
       await addTask({ title, description });
       setTitle("");
       setDescription("");
-
-      // Show success alert
-      Swal.fire({
-        title: "Task Added!",
-        text: "Your task has been successfully added.",
-        icon: "success",
-        confirmButtonColor: "#001b5e",
-        iconColor: "#000000"
-      });
-
+      showAlert("Task Added!", "Your task has been successfully added.", "success");
       onTaskAdded(); // Refresh task list
     } catch (error) {
-      Swal.fire({
-        title: "Oops!",
-        text: "Something went wrong while adding the task.",
-        icon: "error",
-        confirmButtonColor: "#001b5e",
-        iconColor: "#000000"
-      });
+      showAlert("Oops!", "Something went wrong while adding the task.", "error");
     }
   };
 
+  return { title, setTitle, description, setDescription, handleSubmit };
+};
+
+// ToDoForm Component
+const ToDoForm = ({ onTaskAdded }) => {
+  const { title, setTitle, description, setDescription, handleSubmit } = useTaskForm(onTaskAdded);
 
   return (
     <div className="bg-white p-6 shadow-lg rounded-lg w-full">
       <h2 className="text-xl font-bold mb-4 text-black">Add a Task</h2>
       <form onSubmit={handleSubmit}>
-        <label className="block text-black font-semibold mb-1">Task</label>
-        <input
-          type="text"
-          placeholder="Add your task"
-          className="w-full p-2 border rounded-md mb-4 text-black"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <label className="block text-black font-semibold mb-1">Description</label>
-        <textarea      
-          placeholder="Description"
-          className="w-full p-2 border rounded-md mb-4 h-24 text-black"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}         
-        ></textarea>
+        <FormField label="Task">
+          <input
+            type="text"
+            placeholder="Add your task"
+            className="w-full p-2 border rounded-md mb-4 text-black"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </FormField>
+
+        <FormField label="Description">
+          <textarea
+            placeholder="Description"
+            className="w-full p-2 border rounded-md mb-4 h-24 text-black"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </FormField>
+
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
@@ -76,5 +76,13 @@ const ToDoForm = ({ onTaskAdded }) => {
     </div>
   );
 };
+
+// Reusable FormField Component
+const FormField = ({ label, children }) => (
+  <div>
+    <label className="block text-black font-semibold mb-1">{label}</label>
+    {children}
+  </div>
+);
 
 export default ToDoForm;

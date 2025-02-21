@@ -60,9 +60,9 @@ Run unit tests & integration tests:
 ```bash
 cd backend
 ```
-Open TaskControllerTest.java
-Click the green Run icon next to each test method
-Run all tests by clicking the green Run icon at the class level
+-Open TaskControllerTest.java
+-Click the green Run icon next to each test method
+-Run all tests by clicking the green Run icon at the class level
 
 ### Frontend (React)
 Run unit tests for components:

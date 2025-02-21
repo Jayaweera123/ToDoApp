@@ -70,7 +70,7 @@ Run Integration Tests(Spring Boot + H2 Database):
 - The tests are in ToDoBackendApplicationTests.java.
 - The test database is configured in application.properties under the test folder.
 - Ensure H2 is enabled for testing.
-- 
+  
 ### Frontend (React)
 Run unit tests for components:
 ```bash

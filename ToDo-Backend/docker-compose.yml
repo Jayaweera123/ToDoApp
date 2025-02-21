@@ -10,15 +10,39 @@ services:
       MYSQL_PASSWORD: 12345
     ports:
       - "3307:3306"
+    networks:
+      - todo-app-network
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   todo-app:
-    image: todo-app:latest
+    image: brdjayaweera/todo-app:latest
     container_name: todo-app
+    restart: always
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/todoapp
+      DB_USERNAME: user
+      DB_PASSWORD: 12345
     ports:
       - "8080:8080"
+    networks:
+      - todo-app-network
+    depends_on:
+      - mysql
 
   todo-app-fe:
-    image : todo-app-fe:latest
-    container_name:
-      ports:
-        - "5432:5432"
+    image: brdjayaweera/todo-app-fe:latest
+    container_name: todo-app-fe
+    ports:
+      - "4173:4173"
+    networks:
+      - todo-app-network
+    depends_on:
+      - todo-app
+
+
+volumes:
+  mysql_data:
+
+networks:
+  todo-app-network:

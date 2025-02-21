@@ -33,7 +33,7 @@ cd todo-app
 
 ### 1️⃣ Start the Containers
 ```bash
-docker-compose up --build
+docker-compose up
 ```
 This will pull the image from Docker Hub and run it.
 
@@ -46,7 +46,7 @@ It will take **3 minutes** to initialize the MySQL database. Until the initializ
 If the backend does not start after **5 minutes**, please restart the containers.
 
 - The backend will run at 👉 **http://localhost:8080**  
-- The frontend will be available at 👉 **http://localhost:3000**  
+- The frontend will be available at 👉 **http://localhost:4173**  
 
 ### 2️⃣ Stop the Containers
 ```bash
@@ -59,8 +59,10 @@ docker-compose down
 Run unit tests & integration tests:
 ```bash
 cd backend
-./mvnw test
 ```
+Open TaskControllerTest.java
+Click the green Run icon next to each test method
+Run all tests by clicking the green Run icon at the class level
 
 ### Frontend (React)
 Run unit tests for components:

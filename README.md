@@ -23,7 +23,7 @@ A full-stack To-Do task management application built with React, Tailwind CSS, S
 ## 📦 Setup & Installation
 
 ### Clone the Repository
-```bash
+bash
 git clone https://github.com/Jayaweera123/ToDoApp.git
 cd todo-app
 

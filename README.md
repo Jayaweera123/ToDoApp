@@ -18,7 +18,7 @@ A full-stack To-Do task management application built with React, Tailwind CSS, S
 ### Other Tools
 - Docker (for containerization)  
 - JUnit 5 (Backend Testing)  
-- React Testing Library, Jest (Frontend Testing)  
+- React Testing Library, Selenium IDE (Frontend Testing)  
 
 ## 📦 Setup & Installation
 
@@ -40,7 +40,7 @@ This will:
 - Start Spring Boot Backend
 - Start React Frontend
 
-It will take 3 minutes to initialize the MySQL database. Until the initialization is complete, the backend will not start running.
+It will take 3 minutes to initialize the MySQL database. Until the initialization is complete, the backend will not start running. If the backend does not start after 5 minutes, please restart the containers.
 
 The backend will run at 👉 http://localhost:8080  
 The frontend will be available at 👉 http://localhost:3000  

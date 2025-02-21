@@ -23,14 +23,14 @@ A full-stack To-Do task management application built with React, Tailwind CSS, S
 ## 📦 Setup & Installation
 
 ### Clone the Repository
-bash
+```bash
 git clone https://github.com/Jayaweera123/ToDoApp.git
 cd todo-app
 
 ## 🐳 Running the App with Docker
 
 ### 1️⃣ Start the Containers
-bash
+```bash
 docker-compose up build
 
 This will pull the image from Docker Hub and run it.
@@ -46,7 +46,7 @@ The backend will run at 👉 http://localhost:8080
 The frontend will be available at 👉 http://localhost:3000  
 
 ### 2️⃣ Stop the Containers
-bash
+```bash
 docker-compose down
 
 

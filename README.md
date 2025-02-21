@@ -77,7 +77,7 @@ npm test
 |--------|-------------------|-------------------------|
 | POST   | /tasks          | Create a new task       |
 | GET    | /tasks          | Get the latest 5 tasks  |
-| PUT    | /tasks/{id}/done | Mark a task as completed |
+| PUT    | /tasks/{id} | Mark a task as completed |
 
 ### Example request to create a task:
 json

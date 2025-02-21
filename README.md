@@ -22,30 +22,25 @@ A full-stack To-Do task management application built with React, Tailwind CSS, S
 
 ## 📦 Setup & Installation
 
-### 1️⃣ Clone the Repository
+### Clone the Repository
 bash
 git clone https://github.com/your-username/todo-app.git
 cd todo-app
-
-
-### 2️⃣ Set Up Environment Variables
-Create a .env file inside backend/ with the following values:
-env
-SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/tododb
-SPRING_DATASOURCE_USERNAME=root
-SPRING_DATASOURCE_PASSWORD=root
-
 
 ## 🐳 Running the App with Docker
 
 ### 1️⃣ Start the Containers
 bash
-docker-compose up --build
+docker-compose up build
+
+This will pull the image from Docker Hub and run it.
 
 This will:
 - Start MySQL
 - Start Spring Boot Backend
 - Start React Frontend
+
+It will take 3 minutes to initialize the MySQL database. Until the initialization is complete, the backend will not start running.
 
 The backend will run at 👉 http://localhost:8080  
 The frontend will be available at 👉 http://localhost:3000  

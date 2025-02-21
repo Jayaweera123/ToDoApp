@@ -56,8 +56,9 @@ docker-compose down
 Run unit tests & integration tests:
 bash
 cd backend
-mvn test
-
+Open TaskControllerTest.java
+Click the green Run icon next to each test method
+Run all tests by clicking the green Run icon at the class level
 
 ### Frontend (React)
 Run unit tests for components:
@@ -83,7 +84,8 @@ json
 
 
 ## 📷 UI Preview
-UI Preview
+![ToDo App](https://github.com/user-attachments/assets/193c66f3-24cf-4674-9dd8-385fed596524)
+
 
 ## 🙌 Contribution
 1. Fork this repository.  

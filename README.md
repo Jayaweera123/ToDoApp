@@ -8,8 +8,9 @@ A full-stack To-Do task management application built with React, Tailwind CSS, S
 ✅ Mark tasks as completed (they will be removed from the UI).  
 ✅ SweetAlert2 for better user notifications.  
 ✅ Fully containerized with Docker & Docker Compose.  
-✅ Unit tests for the backend.  
-✅ Unit tests for the frontend components.  
+✅ Unit and integration tests for the backend using JUnit 5 & H2 Database.
+✅ Unit tests for the frontend components using React Testing Library.
+✅ End-to-end testing using Selenium.
 
 ## 🛠 Tech Stack
 **Frontend:** React, Vite, Tailwind CSS, SweetAlert2 (for alerts)  
@@ -18,7 +19,7 @@ A full-stack To-Do task management application built with React, Tailwind CSS, S
 
 ### Other Tools
 - Docker (for containerization)  
-- JUnit 5 (Backend Testing)  
+- JUnit 5, H2 Database (Backend Testing)
 - React Testing Library, Selenium IDE (Frontend Testing)  
 
 ## 📦 Setup & Installation
@@ -56,7 +57,7 @@ docker-compose down
 ## 🧪 Running Tests
 
 ### Backend (Spring Boot)
-Run unit tests & integration tests:
+Run unit tests:
 ```bash
 cd backend
 ```
@@ -64,6 +65,12 @@ cd backend
  - Click the green Run icon next to each test method
  - Run all tests by clicking the green Run icon at the class level
 
+Run Integration Tests(Spring Boot + H2 Database):
+
+- The tests are in ToDoBackendApplicationTests.java.
+- The test database is configured in application.properties under the test folder.
+- Ensure H2 is enabled for testing.
+- 
 ### Frontend (React)
 Run unit tests for components:
 ```bash
